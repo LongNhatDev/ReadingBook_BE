@@ -1,9 +1,9 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var cors = require('cors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const cors = require('cors');
 const logger = require("morgan");
 const createError = require('http-errors');
 require('dotenv').config();
@@ -11,9 +11,9 @@ require('dotenv').config();
 const userRouter = require('./routes/user.route');
 const authRouter = require('./routes/auth.route');
 
-var users = require('./routes/users');
+const users = require('./routes/users');
 
-var app = express();
+const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
