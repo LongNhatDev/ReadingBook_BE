@@ -69,6 +69,11 @@ const bookSchema = new Schema({
   description: {
     type: String
   },
+  status: {
+    type: String,
+    enum : ['Ongoing', 'Completed', 'Paused'],
+    default: 'Ongoing'
+  },
   coverImageURL: {
     type: String,
     required: true
