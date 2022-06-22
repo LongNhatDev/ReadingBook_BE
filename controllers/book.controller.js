@@ -159,15 +159,20 @@ async function updateBook(req, res, next) {
     if (!book) {
       return next(createError(404));
     }
-    console.log(book);
-    book.bookName = bookName;
-    book.category = categoryId;
-    book.description = description;
-    book.coverImageURL = coverImageURL;
-    book.price = price;
+    if(book.author._id.equals(req.user._id) || req.user.roles.includes(constants.MOD)) {
+      console.log(book);
+      book.bookName = bookName;
+      book.category = categoryId;
+      book.description = description;
+      book.coverImageURL = coverImageURL;
+      book.price = price;
+      await book.save();
+      return res.json({ message: "Update book successed" });
+    }
+    else {
+      return res.status(401).json({ message: "Unthorized update book" });
+    }
 
-    await book.save();
-    return res.json({ message: "Update book successed" });
   } catch (error) {
     next(error);
   }
