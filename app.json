@@ -1,0 +1,48 @@
+{
+  "apps": [
+    {
+      "name": "api_gateway",
+      "script": "./api_gateway/server.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3000",
+        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority"
+      }
+    },
+    {
+      "name": "user-service",
+      "script": "./user_service/index.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3001",
+        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority"
+      }
+    },
+    {
+      "name": "book-service",
+      "script": "./book_service/index.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3002",
+        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority"
+      }
+    },
+    {
+      "name": "notification-service",
+      "script": "./notification_service/index.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3003",
+        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority"
+      }
+    }
+  ]
+}
