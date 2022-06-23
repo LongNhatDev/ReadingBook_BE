@@ -1,0 +1,59 @@
+http:
+  port: 8080
+apiEndpoints:
+  users:
+    host: localhost
+    paths: '/users*'
+  notifications:
+    host: localhost
+    paths: '/notifications*'
+  books:
+    host: localhost
+    paths: '/books*'
+serviceEndpoints:
+  users:
+    url: 'http://localhost:3000'
+  notifications:
+    url: 'http://localhost:3002'
+  books:
+    url: 'http://localhost:3001'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  - name: users
+    apiEndpoints:
+      - users
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: users 
+              changeOrigin: true
+  - name: notifications
+    apiEndpoints:
+      - notifications
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: notifications 
+              changeOrigin: true
+  - name: books
+    apiEndpoints:
+      - books
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: books 
+              changeOrigin: true

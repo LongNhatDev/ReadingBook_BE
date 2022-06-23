@@ -1,0 +1,34 @@
+{
+  "apps": [
+    {
+      "name": "user-service",
+      "script": "./user_service/index.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3000"
+      }
+    },
+    {
+      "name": "book-service",
+      "script": "./book_service/index.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3001"
+      }
+    },
+    {
+      "name": "notification-service",
+      "script": "./notification_service/index.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3002"
+      }
+    }
+  ]
+}
