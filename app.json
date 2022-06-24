@@ -5,6 +5,7 @@
       "script": "./api_gateway/server.js",
       "instances": 1,
       "exec_mode": "cluster",
+      "detached": true,
       "env": {
         "NODE_ENV": "development",
         "PORT": "3000",
@@ -16,6 +17,7 @@
       "script": "./user_service/index.js",
       "instances": 1,
       "exec_mode": "cluster",
+      "detached": true,
       "env": {
         "NODE_ENV": "development",
         "PORT": "3001",
@@ -27,6 +29,7 @@
       "script": "./book_service/index.js",
       "instances": 1,
       "exec_mode": "cluster",
+      "detached": true,
       "env": {
         "NODE_ENV": "development",
         "PORT": "3002",
@@ -38,6 +41,7 @@
       "script": "./notification_service/index.js",
       "instances": 1,
       "exec_mode": "cluster",
+      "detached": true,
       "env": {
         "NODE_ENV": "development",
         "PORT": "3003",

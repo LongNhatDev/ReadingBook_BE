@@ -31,29 +31,30 @@ const {
 } = require('../controllers/review.controller');
 
 const { validateCreateReview } = require('../middlewares/validate.middleware');
+const { verifyToken, isAdmin, ignoreVerifyToken, isMod } = require('../middlewares/auth.middleware');
 
-router.post('/', createBook)
-  .get('/', getAllBooks)
-  .get('/category/:categoryId', getBooksInCategory)
-  .get('/book/:bookId', getBookById)
-  .put('/book/:bookId', updateBook)
-  .patch('/book/:bookId/status', updateBookStatus)
-  .get('/author', getBookByAuthor)
+router.post('/', verifyToken, createBook)
+  .get('/', ignoreVerifyToken, getAllBooks)
+  .get('/category/:categoryId', ignoreVerifyToken, getBooksInCategory)
+  .get('/book/:bookId', ignoreVerifyToken, getBookById)
+  .put('/book/:bookId', verifyToken, updateBook)
+  .patch('/book/:bookId/status', verifyToken, updateBookStatus)
+  .get('/author', verifyToken, getBookByAuthor)
   .get('/search', searchBook)
-  .delete('/book/:bookId', deleteBook)
+  .delete('/book/:bookId', verifyToken, deleteBook)
   .put('/book/:bookId/viewNumber', updateViewNumberBook)
-  .patch('/book/:bookId/accept-book', acceptBook)
-  .get('/accepted-books', getAllAcceptedBook)
-  .get('/unaccepted-books', getAllUnAcceptedBook)
+  .patch('/book/:bookId/accept-book', verifyToken, isMod, acceptBook)
+  .get('/accepted-books', verifyToken, isMod, getAllAcceptedBook)
+  .get('/unaccepted-books', verifyToken, isMod, getAllUnAcceptedBook)
 
-router.post('/:bookId/chapters', createNewChapter) 
+router.post('/:bookId/chapters', verifyToken, createNewChapter) 
   .get('/:bookId/chapters/:chapterNumber', getDetailChapter)
-  .put('/:bookId/chapters/:chapterId', updateChapter)
+  .put('/:bookId/chapters/:chapterId', verifyToken, updateChapter)
   .get('/:bookId/chapters', getAllChapters)
-  .delete('/:bookId/chapters/:chapterId', deleteChapterInBook);
+  .delete('/:bookId/chapters/:chapterId', verifyToken, deleteChapterInBook);
 
-router.post('/:bookId/reviews', validateCreateReview, createReviewBook)
+router.post('/:bookId/reviews', verifyToken, validateCreateReview, createReviewBook)
   .get('/:bookId/reviews', getAllReviewsInBook)
-  .delete('/:bookId/reviews/:reviewId', deleteReviewInBook);
+  .delete('/:bookId/reviews/:reviewId', verifyToken, deleteReviewInBook);
 
 module.exports = router;

@@ -2,7 +2,8 @@ const { Book } = require('../models/book.model');
 const Follow = require('../models/follow.model');
 const User = require('../models/user.model');
 const createError = require('http-errors');
-const constants = require('../../utils/constants')
+const { ObjectID } = require('typeorm');
+const constants = require('../utils/constants')
 
 async function createBook(req, res, next) {
   try {
@@ -39,7 +40,6 @@ async function createBook(req, res, next) {
 
 async function getAllBooks(req, res, next) {
   try {
-    console.log(req.headers);
     const sort = req.query.sort == "desc" ? -1 : 1;
     const typeSort = req.query.typeSort;
     const pageSize = req.query.pageSize;
@@ -150,7 +150,7 @@ async function updateBook(req, res, next) {
     const book = await Book.findById(bookId)
       .populate({
         path: 'author',
-        select: '-_id fullName'
+        select: '_id fullName'
       })
       .populate({
         path: 'category',
@@ -159,8 +159,7 @@ async function updateBook(req, res, next) {
     if (!book) {
       return next(createError(404));
     }
-    if(book.author._id.equals(req.user._id) || req.user.roles.includes(constants.MOD)) {
-      console.log(book);
+    if(book.author.equals(req.user) || req.user.roles.includes(constants.MOD)) {
       book.bookName = bookName;
       book.category = categoryId;
       book.description = description;
@@ -170,7 +169,7 @@ async function updateBook(req, res, next) {
       return res.json({ message: "Update book successed" });
     }
     else {
-      return res.status(401).json({ message: "Unthorized update book" });
+      return res.status(403).json({ message: "Unthorized update book" });
     }
 
   } catch (error) {
@@ -186,8 +185,7 @@ async function deleteBook(req, res, next) {
         path: 'author',
       }).exec();
     if (book) {
-      console.log(book.author._id, req.user._id);
-      if (book.author._id.equals(req.user._id)) {
+      if (book.author._id.equals(req.user._id) || req.user.roles.includes(constants.MOD)) {
         await book.remove();
         return res.status(200).json({ message: 'Deleted book' });
       }
@@ -291,7 +289,7 @@ async function searchBook(req, res, next) {
       findOpiton._id = bookId;
     }
     if (authorId) {
-      findOpiton.author = authorId
+      findOpiton.author = ObjectID(authorId);
     }
     if (category) {
       findOpiton.category = { $regex: '.*' + category + '.*' };
@@ -406,9 +404,6 @@ async function getAllAcceptedBook(req, res, next) {
           path: 'acceptedBy',
           select: 'fullName avatar'
         });
-    if (!books) {
-      return next(createError(404));
-    }
     const count = await books.length;
     return res.status(200).json({ books, page, pages: Math.ceil(count / pageSize) });
   }
@@ -440,9 +435,6 @@ async function getAllUnAcceptedBook(req, res, next) {
           path: 'acceptedBy',
           select: 'fullName avatar'
         });
-    if (!books) {
-      return next(createError(404));
-    }
     const count = await books.length;
     return res.status(200).json({ books, page, pages: Math.ceil(count / pageSize) });
   }

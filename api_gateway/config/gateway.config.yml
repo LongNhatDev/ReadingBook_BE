@@ -3,13 +3,13 @@ http:
 apiEndpoints:
   users:
     host: localhost
-    paths: '/users*'
+    paths: ['/api/users*', '/api/auth*', '/api/sign-s3*']
   notifications:
     host: localhost
-    paths: '/notifications*'
+    paths: '/api/notifications*'
   books:
     host: localhost
-    paths: '/books*'
+    paths: ['/api/books*', '/api/categories*', '/api/follow*', '/api/unfollow*']
 serviceEndpoints:
   users:
     url: 'http://localhost:3001'

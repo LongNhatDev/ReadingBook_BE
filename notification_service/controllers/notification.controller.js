@@ -1,18 +1,20 @@
-const createHttpError = require('http-errors');
-const Follow = require('./models/follow.model');
-const Notification = require('./models/notification.model')
-const Book = require('./models/book.model')
+const {User} = require('../models/user.model');
+const Follow = require('../models/follow.model');
+const Notification = require('../models/notification.model');
+const { Book } = require('../models/book.model');
+require('dotenv').config();
 
-async function createNotification(book, chapter) {
+async function createNotification(bookId, chapter) {
   try {
-    const followers = await Follow.find({ book: book._id })
+    const followers = await Follow.find({ book: bookId })
       .populate({
         path: 'book',
       }).exec();
+    const book = await Book.findById(bookId);
     const message = `${book.bookName} has a new chapter: ${chapter.chapterNumber} - ${chapter.title}.`
     const notifcations = followers.map(item => {
       return {
-        book: book._id,
+        book: item.book,
         user: item.user,
         message,
       }
@@ -26,13 +28,18 @@ async function createNotification(book, chapter) {
 
 async function getNotifications(req, res, next) {
   try {
-    console.log('afsafsfafsa');
-    const notifications = await Notification.find({user: req.params.userId})
+    const notifications = await Notification.find({user: req.user._id})
+      // .populate({
+      //   path: 'user',
+      //   select: 'fullName',
+      //   // match: {
+      //   //   _id: req.user._id
+      //   // }
+      // })
       .populate({
         path: 'book',
         select: 'bookName coverImageURL'
       }).exec();
-      console.log(notifications);
     return res.json(notifications);
   } catch (error) {
     next(error);
@@ -41,7 +48,7 @@ async function getNotifications(req, res, next) {
 
 async function readAllNotifications(req, res, next) {
   try {
-    await Notification.update({ user: req.params.userId }, { "$set": { "isSeen": true } });
+    await Notification.update({ user: req.user._id }, { "$set": { "isSeen": true } });
     return res.status(200).json({
       message: "You have seen all notifications."
     });
@@ -53,9 +60,6 @@ async function readAllNotifications(req, res, next) {
 async function readNotification(req, res, next) {
   try {
     const notification = await Notification.findById(req.body.notificationId);
-    if (req.params.userId !== notification.user.toString()) {
-      return next(createHttpError(403))
-    }
     notification.isSeen = true;
     await notification.save()
     return res.status(200).json({
