@@ -12,7 +12,7 @@ router
   .get('/user/profile', verifyToken, getUserProfile)
   .put('/user/profile', verifyToken, updateUserProfile)
   .put('/change-password', verifyToken, updatePassword)
-  // .get('/user/followed-books', verifyToken, getFollowedBooks) ///sao lai co cai nay nhu
+  // .get('/user/followed-books', verifyToken, getFollowedBooks) ///
 
 
 module.exports = router;
