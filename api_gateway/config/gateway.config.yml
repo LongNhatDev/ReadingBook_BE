@@ -53,16 +53,7 @@ pipelines:
       - books
     policies:
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
-      # - key-auth:
-      - headers:
-          - action:
-              headersPrefix: 'eg-'
-              forwardHeaders:
-                id: 'consumer.id'
-                consumer-name: 'consumer.name'
-                consumer-type: 'consumer.type'
-                requestID: 'requestID'
-                scopes: 'consumer.token.scopes'
+      # - basic-auth:
       - proxy:
           - action:
               serviceEndpoint: books 
