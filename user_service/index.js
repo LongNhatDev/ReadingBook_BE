@@ -4,12 +4,8 @@ const morgan = require('morgan');
 const bodyPaser = require('body-parser');
 const authRouter = require('./routes/auth.route');
 const mongoose = require('mongoose')
-// const bookRouter = require('./routes/book.route');
 const uploadImageRouter = require('./routes/upload_image.route');
-// const categoryRouter = require('./routes/category.route');
 const userRouter = require('./routes/user.route');
-// const followRouter = require('./routes/follow.route');
-// const notificationRouter = require('./routes/notification.route');
 
 app.use(morgan('dev'));
 app.use(bodyPaser.json({ extended: false }));

@@ -3,7 +3,7 @@ const app = express();
 const route = require('./routes/notification.route');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-require('dotenv').config();
+
 mongoose.connect(process.env.MONGO_URI, (error) => {
   if (error) {
     console.log(error)
@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGO_URI, (error) => {
 const bodyParser = require('body-parser')
 app.use(bodyParser.json({ extended: false }));
 app.use(morgan('dev'))
-app.use('/api/notifications', route);
+app.use('/', route);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

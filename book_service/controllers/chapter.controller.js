@@ -1,15 +1,14 @@
-const { Book } = require('../../models/book.model');
+const { Book } = require('../models/book.model');
 const createError = require('http-errors');
-const { getNewChapterUrl } = require('../../utils/add_new_chapters');
-// const { createNotification } = require('../../controllers/notification.controller');
+const { getNewChapterUrl } = require('../utils/add_new_chapters');
+const request = require('request');
 
 async function createNewChapter(req, res, next) {
   try {
     const bookId = req.params.bookId;
     const { title, content, audioLink } = req.body;
-    const existBook = await Book.findOne({_id: bookId, author: req.user}).populate('chapters');
-
-    if (!existBook) {
+    const existBook = await Book.findById(bookId);
+    if (!existBook || !existBook.author.equals(req.user._id)) {
       return next(createError(403));
     }
 
@@ -22,7 +21,19 @@ async function createNewChapter(req, res, next) {
       chapterNumber
     };
     existBook.chapters.push(chapter);
-    existBook.save(existBook);
+    await existBook.save(existBook);
+    await request.post('http://localhost:3003/notifications', {
+      json: {
+        book: {
+          bookId: existBook._id,
+          bookName: existBook.bookName,
+        },
+        chapter: {
+          chapterNumber: chapter.chapterNumber,
+          title: chapter.title
+        }
+      }
+    });
     // await createNotification(bookId, chapter);
     res.status(201).json({
       _id: chapter._id,

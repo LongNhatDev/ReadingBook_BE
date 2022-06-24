@@ -21,7 +21,13 @@
       "env": {
         "NODE_ENV": "development",
         "PORT": "3001",
-        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority"
+        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority",
+        "S3_BUCKET": "reading-books-management",
+        "JWT_SECRET": "abc123",
+        "JWT_REFRESH_SECRET": "abcd1234",
+        "DEFAULT_AVATAR": "https://reading-books-management.s3.amazonaws.com/avatars/default_avatar.png",
+        "MASTER_EMAIL": "heocute10899@gmail.com",
+        "MASTER_PASSWORD": "ngocquyettam"
       }
     },
     {
@@ -33,7 +39,13 @@
       "env": {
         "NODE_ENV": "development",
         "PORT": "3002",
-        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority"
+        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority",
+        "S3_BUCKET": "reading-books-management",
+        "JWT_SECRET": "abc123",
+        "JWT_REFRESH_SECRET": "abcd1234",
+        "DEFAULT_AVATAR": "https://reading-books-management.s3.amazonaws.com/avatars/default_avatar.png",
+        "MASTER_EMAIL": "heocute10899@gmail.com",
+        "MASTER_PASSWORD": "ngocquyettam"
       }
     },
     {
@@ -45,7 +57,13 @@
       "env": {
         "NODE_ENV": "development",
         "PORT": "3003",
-        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority"
+        "MONGO_URI": "mongodb+srv://ngocngo:qwert12345@cluster0.gspha.mongodb.net/database_reading_book?retryWrites=true&w=majority",
+        "S3_BUCKET": "reading-books-management",
+        "JWT_SECRET": "abc123",
+        "JWT_REFRESH_SECRET": "abcd1234",
+        "DEFAULT_AVATAR": "https://reading-books-management.s3.amazonaws.com/avatars/default_avatar.png",
+        "MASTER_EMAIL": "heocute10899@gmail.com",
+        "MASTER_PASSWORD": "ngocquyettam"
       }
     }
   ]

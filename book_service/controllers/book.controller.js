@@ -38,6 +38,40 @@ async function createBook(req, res, next) {
   }
 }
 
+async function getBooksByFollowerId(req, res, next) {
+  try {
+    const follower = req.prams.userId;
+    
+    const books = await
+      Book.find({ ...keyword, isAccept: true }).limit(pageSize).sort(sortItem).skip(pageSize * (page - 1))
+        .populate({
+          path: 'category',
+          select: 'categoryName'
+        })
+        .populate({
+          path: 'author',
+          select: 'fullName'
+        }).exec();
+    if (!books) {
+      return next(createError(404));
+    }
+    const count = await books.length;
+    if (req.user) {
+      const result = books.map(book => {
+        const followedCheck = follows.some(element => element.book._id.equals(book._id));
+        return {
+          ...book.toObject(),
+          isFollowed: followedCheck
+        }
+      })
+      return res.status(200).json({ result, page, pages: Math.ceil(count / pageSize) });
+    }
+    return res.status(200).json({ books, page, pages: Math.ceil(count / pageSize) });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function getAllBooks(req, res, next) {
   try {
     const sort = req.query.sort == "desc" ? -1 : 1;
@@ -457,5 +491,6 @@ module.exports = {
   updateBookStatus,
   acceptBook,
   getAllAcceptedBook,
-  getAllUnAcceptedBook
+  getAllUnAcceptedBook,
+  getBooksByFollowerId,
 }

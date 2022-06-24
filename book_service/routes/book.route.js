@@ -13,7 +13,8 @@ const {
   updateBookStatus,
   acceptBook,
   getAllAcceptedBook,
-  getAllUnAcceptedBook
+  getAllUnAcceptedBook,
+  getFollowedBooks
 } = require('../controllers/book.controller');
 
 const {
@@ -41,6 +42,7 @@ router.post('/', verifyToken, createBook)
   .patch('/book/:bookId/status', verifyToken, updateBookStatus)
   .get('/author', verifyToken, getBookByAuthor)
   .get('/search', searchBook)
+  .get('/follow-by/:userId', getFollowedBooks)
   .delete('/book/:bookId', verifyToken, deleteBook)
   .put('/book/:bookId/viewNumber', updateViewNumberBook)
   .patch('/book/:bookId/accept-book', verifyToken, isMod, acceptBook)

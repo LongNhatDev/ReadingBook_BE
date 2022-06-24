@@ -4,13 +4,11 @@ const Notification = require('../models/notification.model');
 const { Book } = require('../models/book.model');
 require('dotenv').config();
 
-async function createNotification(bookId, chapter) {
+async function createNotifications(req, res, next) {
   try {
-    const followers = await Follow.find({ book: bookId })
-      .populate({
-        path: 'book',
-      }).exec();
-    const book = await Book.findById(bookId);
+    const { book, chapter } = req.body;
+    const followers = await Follow.find({ book: book.bookId })
+
     const message = `${book.bookName} has a new chapter: ${chapter.chapterNumber} - ${chapter.title}.`
     const notifcations = followers.map(item => {
       return {
@@ -20,6 +18,9 @@ async function createNotification(bookId, chapter) {
       }
     });
     await Notification.create(notifcations);
+    res.status(201).json({
+      message: 'created'
+    });
   } catch (error) {
     console.log(error);
     throw error;
@@ -72,7 +73,7 @@ async function readNotification(req, res, next) {
 
 module.exports = {
   readAllNotifications,
-  createNotification,
+  createNotifications,
   readNotification,
   getNotifications,
 }

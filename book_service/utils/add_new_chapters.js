@@ -1,10 +1,16 @@
 // require('dotenv').config;
 const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET;
-aws.config.region = 'us-east-1';
+
 
 async function getNewChapterUrl(content) {
-  const s3 = new aws.S3();
+  console.log(S3_BUCKET);
+  const s3 = new aws.S3({
+    accessKeyId: 'AKIAS2BUOKXJJMZNY7TR',
+    secretAccessKey: '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',
+    region: 'us-east-1',
+    apiVersion: 'latest'
+  });
   const fileName = new Date().valueOf() + '.txt';
   const fileType = 'text/plain'
   const bucketName = 'chapters';
