@@ -22,7 +22,7 @@ async function createNewChapter(req, res, next) {
     };
     existBook.chapters.push(chapter);
     await existBook.save(existBook);
-    await request.post('http://localhost:3003/notifications', {
+    await request.post('http://localhost:5003/notifications', {
       json: {
         book: {
           bookId: existBook._id,

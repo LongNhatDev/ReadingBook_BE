@@ -9,7 +9,7 @@ apiEndpoints:
     paths: '/api/notifications*'
   books:
     host: localhost
-    paths: ['/api/books*', '/api/categories*', '/api/follow*', '/api/unfollow*']
+    paths: ['/api/books*', '/api/categories*', '/api/follow*', '/api/unfollow*', '/api/followed-books*']
 serviceEndpoints:
   users:
     url: 'http://localhost:5001'
