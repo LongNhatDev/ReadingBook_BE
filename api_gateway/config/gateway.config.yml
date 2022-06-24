@@ -12,11 +12,11 @@ apiEndpoints:
     paths: ['/api/books*', '/api/categories*', '/api/follow*', '/api/unfollow*']
 serviceEndpoints:
   users:
-    url: 'http://localhost:3001'
+    url: 'http://localhost:5001'
   notifications:
-    url: 'http://localhost:3003'
+    url: 'http://localhost:5003'
   books:
-    url: 'http://localhost:3002'
+    url: 'http://localhost:5002'
 policies:
   - basic-auth
   - cors

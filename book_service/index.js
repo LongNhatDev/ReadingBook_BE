@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const bookRouter = require('./routes/book.route');
 const uploadImageRouter = require('./routes/upload_image.route');
 const categoryRouter = require('./routes/category.route');
@@ -19,6 +20,7 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.json({ extended: false }));
 app.use(logger('dev'))
+app.use(cors())
 app.use('/api/books', bookRouter);
 app.use('/api', uploadImageRouter);
 app.use('/api/categories', categoryRouter);

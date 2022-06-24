@@ -4,10 +4,12 @@ const morgan = require('morgan');
 const bodyPaser = require('body-parser');
 const authRouter = require('./routes/auth.route');
 const mongoose = require('mongoose')
+const cors = require('cors');
 const uploadImageRouter = require('./routes/upload_image.route');
 const userRouter = require('./routes/user.route');
 
 app.use(morgan('dev'));
+app.use(cors())
 app.use(bodyPaser.json({ extended: false }));
 mongoose.connect(process.env.MONGO_URI, (error) => {
   if (error) {
