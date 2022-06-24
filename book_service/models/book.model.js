@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Category = require('./category.model')
 const Schema = mongoose.Schema;
 
 const chapterSchema = mongoose.Schema(

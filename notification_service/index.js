@@ -22,7 +22,7 @@ app.get('/health_check', (req, res, next) => {
     message: 'OK'
   })
 });
-
-app.listen(3002, () => {
-  console.log('Notification services run at localhost:3002');
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Notification services run at localhost:${PORT}`);
 });

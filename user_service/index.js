@@ -16,6 +16,7 @@ app.get('/health_check', (req, res, next) => {
   })
 });
 
-app.listen(3000, () => {
-  console.log('User services run at localhost:3000');
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`User services run at localhost:${PORT}`);
 });
