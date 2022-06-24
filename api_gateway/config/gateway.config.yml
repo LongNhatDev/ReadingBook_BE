@@ -1,0 +1,60 @@
+http:
+  port: 3000
+apiEndpoints:
+  users:
+    host: localhost
+    paths: ['/api/users*', '/api/auth*', '/api/sign-s3*']
+  notifications:
+    host: localhost
+    paths: '/api/notifications*'
+  books:
+    host: localhost
+    paths: ['/api/books*', '/api/categories*', '/api/follow*', '/api/unfollow*']
+serviceEndpoints:
+  users:
+    url: 'http://localhost:3001'
+  notifications:
+    url: 'http://localhost:3003'
+  books:
+    url: 'http://localhost:3002'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+  - headers
+pipelines:
+  - name: users
+    apiEndpoints:
+      - users
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: users 
+              changeOrigin: true
+  - name: notifications
+    apiEndpoints:
+      - notifications
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: notifications 
+              changeOrigin: true
+  - name: books
+    apiEndpoints:
+      - books
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+      # - basic-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: books 
+              changeOrigin: true
